@@ -84,6 +84,7 @@ let styles = {
     paddingRight: "10%",
     marginTop: 20,
   },
+
   deleteIcon: { width: 15, height: 13, marginLeft: 20 },
 };
 export default TodoList;
