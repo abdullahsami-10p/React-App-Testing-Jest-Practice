@@ -3,17 +3,23 @@ import AppHeader from "../components/AppHeader";
 import { FormControl, InputGroup, Button } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import deleteIcon from "../assets/images/delete.png";
-
+let addTodo = (text, todo) => {
+    return [...todo, text];
+  },
+  deleteTodo = (i, todo) => {
+    let arr = [...todo];
+    arr.splice(i, 1);
+    return arr;
+  };
 function TodoList() {
   const [todo, setTodo] = useState([]);
   const [text, setText] = useState("");
-
   const handleChange = (e) => {
     setText(e.target.value);
   };
-  const addTodo = () => {
-    if (text != "") {
-      setTodo([...todo, text]);
+  const addTodoFunc = () => {
+    if (text !== "") {
+      setTodo(addTodo(text, todo));
       setText("");
     } else {
       toast.error("Write some todo", {
@@ -26,6 +32,9 @@ function TodoList() {
         progress: undefined,
       });
     }
+  };
+  const deleteTodoFunc = (i) => {
+    setTodo(deleteTodo(i, todo));
   };
   return (
     <div style={styles.container}>
@@ -42,7 +51,7 @@ function TodoList() {
             value={text}
           />
           <InputGroup.Append>
-            <Button variant="outline-secondary" onClick={addTodo}>
+            <Button variant="outline-secondary" onClick={addTodoFunc}>
               Add
             </Button>
           </InputGroup.Append>
@@ -55,12 +64,9 @@ function TodoList() {
               {item}
               <img
                 src={deleteIcon}
+                alt=""
                 style={styles.deleteIcon}
-                onClick={() => {
-                  let arr = [...todo];
-                  arr.splice(i, 1);
-                  setTodo(arr);
-                }}
+                onClick={() => deleteTodoFunc(i)}
               />
             </li>
           );
@@ -86,4 +92,5 @@ let styles = {
   },
   deleteIcon: { width: 15, height: 13, marginLeft: 20 },
 };
+export { addTodo, deleteTodo };
 export default TodoList;
